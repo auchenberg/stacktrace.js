@@ -86,8 +86,12 @@
                             resolve(sf);
                         }
 
-                        new StackTraceGPS(opts).pinpoint(sf)
-                            .then(resolve, resolveOriginal)['catch'](resolveOriginal);
+                        if(!opts.disableSourceMaps || (opts.disableSourceMaps && opts.disableSourceMaps === true)) {
+                            new StackTraceGPS(opts).pinpoint(sf)
+                                .then(resolve, resolveOriginal)['catch'](resolveOriginal);
+                        } else {
+                            resolveOriginal();
+                        }
                     });
                 })));
             }.bind(this));
