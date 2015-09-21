@@ -4,19 +4,18 @@
 
     /* istanbul ignore next */
     if (typeof define === 'function' && define.amd) {
-        define('stacktrace', ['error-stack-parser', 'stack-generator', 'stacktrace-gps'], factory);
+        define('stacktrace', ['error-stack-parser', 'stack-generator'], factory);
     } else if (typeof exports === 'object') {
-        module.exports = factory(require('error-stack-parser'), require('stack-generator'), require('stacktrace-gps'));
+        module.exports = factory(require('error-stack-parser'), require('stack-generator'));
     } else {
-        root.StackTrace = factory(root.ErrorStackParser, root.StackGenerator, root.StackTraceGPS);
+        root.StackTrace = factory(root.ErrorStackParser, root.StackGenerator);
     }
-}(this, function StackTrace(ErrorStackParser, StackGenerator, StackTraceGPS) {
+}(this, function StackTrace(ErrorStackParser, StackGenerator) {
     var _options = {
         filter: function (stackframe) {
             // Filter out stackframes for this library by default
             return (stackframe.functionName || '').indexOf('StackTrace$$') === -1 &&
                 (stackframe.functionName || '').indexOf('ErrorStackParser$$') === -1 &&
-                (stackframe.functionName || '').indexOf('StackTraceGPS$$') === -1 &&
                 (stackframe.functionName || '').indexOf('StackGenerator$$') === -1;
         }
     };
@@ -86,12 +85,7 @@
                             resolve(sf);
                         }
 
-                        if(!opts.disableSourceMaps || (opts.disableSourceMaps && opts.disableSourceMaps === true)) {
-                            new StackTraceGPS(opts).pinpoint(sf)
-                                .then(resolve, resolveOriginal)['catch'](resolveOriginal);
-                        } else {
-                            resolveOriginal();
-                        }
+                        resolveOriginal();
                     });
                 })));
             }.bind(this));

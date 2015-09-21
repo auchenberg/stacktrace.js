@@ -22,8 +22,7 @@
     },
     "dependencies": {
         "error-stack-parser": "~1.2",
-        "stack-generator": "~1",
-        "stacktrace-gps": "~2"
+        "stack-generator": "~1"
     },
     "devDependencies": {
         "colors": "^1.1.2",
